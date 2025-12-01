@@ -5,6 +5,8 @@ import model.Cliente;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClienteDao implements ICrud<Cliente>{
@@ -30,7 +32,26 @@ public class ClienteDao implements ICrud<Cliente>{
 
     @Override
     public List<Cliente> readAll() throws Exception {
-        return List.of();
+
+        List<Cliente> lista = new ArrayList<>();
+        Conexion cnx = new Conexion();
+        try(Connection con = cnx.conectar()) {
+            String sql = "SELECT * FROM `cliente`;";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Cliente cliente = new Cliente(
+                        rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getString("apellido"),
+                        rs.getString("email"),
+                        rs.getString("telefono")
+                );
+                lista.add(cliente);
+            }
+        }
+
+        return lista;
     }
 
     @Override

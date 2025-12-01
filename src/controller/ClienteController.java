@@ -25,13 +25,18 @@ public class ClienteController {
     }
 
     private void agregarCliente() throws Exception {
-
         // SI ES LO CONTRARIO DE TRUE, RETORNAMOS PARA DETENER LA EJECUCIÓN DEL MÉTODO.
         if (!getDatosPanelCliente()) {
             return;
         }
         cliente.crearCliente();
         Alerta.mensaje("Cliente registrado correctamente", "Éxito", 1);
+    }
+
+    private void listarClientes() throws Exception {
+
+
+
     }
 
     // Obtener datos cliente
