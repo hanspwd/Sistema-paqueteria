@@ -98,4 +98,14 @@ public class Cliente {
         ClienteDao dao = new ClienteDao();
         return dao.readAll();
     }
+
+    public void actualizarDatos() throws Exception {
+        ClienteDao dao = new ClienteDao();
+        dao.update(this);
+    }
+
+    public Cliente buscarPorId(int id) throws Exception {
+        ClienteDao dao = new ClienteDao();
+        return dao.readById(id);
+    }
 }

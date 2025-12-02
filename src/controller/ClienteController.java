@@ -30,6 +30,71 @@ public class ClienteController {
         setBtnListeners();
     }
 
+
+    public void setBtnListeners() {
+        view.getBtnAgregar().addActionListener(e -> {
+            try {
+                agregarCliente();
+                listarClientes();
+                reiniciarCampos();
+            } catch (Exception ex) {
+                Alerta.mensaje(ex.getMessage(), "Error", 0);
+            }
+        });
+
+        view.getBtnActualizar().addActionListener(e -> {
+            try {
+                actualizarDatosCliente();
+            } catch (Exception ex) {
+                Alerta.mensaje(ex.getMessage(), "Error", 0);
+            }
+
+        });
+
+        view.getBtnEliminar().addActionListener(e -> {
+            /* TODO*/
+        });
+
+        view.getBtnBuscar().addActionListener(e -> {
+            try {
+                buscarClientePorId();
+            } catch (Exception ex) {
+                Alerta.mensaje(ex.getMessage(), "Error", 0);
+            }
+        });
+
+        view.getBtnLimpiarTodo().addActionListener(e -> {
+            reiniciarCampos();
+        });
+    }
+
+
+    /* TODO, Al hacer click el botón para buscar por id dejar activado solo, actualizar, eliminar y limpiar campos*/
+    private void buscarClientePorId() throws Exception {
+        Cliente c = cliente.buscarPorId(Integer.parseInt(view.getTxtId().getText()));
+
+        view.getTxtId().setEnabled(false);
+        view.getBtnAgregar().setEnabled(false);
+        if(c != null) {
+            view.getTxtNombre().setText(c.getNombre());
+            view.getTxtApellido().setText(c.getApellido());
+            view.getTxtEmail().setText(c.getEmail());
+            view.getTxtTelefono().setText(c.getTelefono());
+        } else {
+            Alerta.mensaje("El id del cliente no existe", "Alerta", 1);
+        }
+    }
+
+    private void actualizarDatosCliente() throws Exception{
+        getDatosPanelCliente();
+        String id = view.getTxtId().getText();
+        cliente.setId(Integer.parseInt(id));
+
+        cliente.actualizarDatos();
+        reiniciarCampos();
+        listarClientes();
+    }
+
     private void agregarCliente() throws Exception {
         // SI ES LO CONTRARIO DE TRUE, RETORNAMOS PARA DETENER LA EJECUCIÓN DEL MÉTODO.
         if (!getDatosPanelCliente()) {
@@ -40,10 +105,11 @@ public class ClienteController {
     }
 
     private void listarClientes() throws Exception {
-        String[] header = {"id", "nombre, apellido", "email", "teléfono"};
+        String[] header = {"id", "nombre", "apellido", "email", "teléfono"};
+
         DefaultTableModel tableModel = new  DefaultTableModel(header, 0);
 
-        String[] datos = new String[5];
+        String[] datos = new String[header.length+1];
 
         for (Cliente cliente : cliente.listarCliente()) {
             datos[0] = String.valueOf(cliente.getId());
@@ -56,33 +122,6 @@ public class ClienteController {
         view.getTblDatosCliente().setModel(tableModel);
     }
 
-    public void setBtnListeners() {
-        view.getBtnAgregar().addActionListener(e -> {
-            try {
-                agregarCliente();
-                listarClientes();
-                limpiarCampos();
-            } catch (Exception ex) {
-                Alerta.mensaje(ex.getMessage(), "Error", 0);
-            }
-        });
-
-        view.getBtnActualizar().addActionListener(e -> {
-            /* TODO*/
-        });
-
-        view.getBtnEliminar().addActionListener(e -> {
-            /* TODO*/
-        });
-
-        view.getBtnBuscar().addActionListener(e -> {
-            /* TODO*/
-        });
-
-        view.getBtnLimpiarTodo().addActionListener(e -> {
-            limpiarCampos();
-        });
-    }
 
 
     /*
@@ -90,7 +129,13 @@ public class ClienteController {
     * */
 
     // Limpiar textFields
-    public void limpiarCampos() {
+    public void reiniciarCampos() {
+
+        view.getTxtId().setEnabled(true);
+        view.getBtnAgregar().setEnabled(true);
+        view.getBtnActualizar().setEnabled(true);
+        view.getBtnBuscar().setEnabled(true);
+        view.getBtnLimpiarTodo().setEnabled(true);
 
         view.getTxtId().setText("");
         view.getTxtNombre().setText("");

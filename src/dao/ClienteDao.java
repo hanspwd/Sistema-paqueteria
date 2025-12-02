@@ -56,6 +56,21 @@ public class ClienteDao implements ICrud<Cliente>{
 
     @Override
     public void update(Cliente cliente) throws Exception {
+        String sql = "UPDATE `cliente` SET `nombre`=?,`apellido`=?,`email`=?,`telefono`=? WHERE `id`= ?";
+        Conexion cnx = new Conexion();
+        try(Connection con = cnx.conectar()) {
+
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, cliente.getNombre());
+            pst.setString(2, cliente.getApellido());
+            pst.setString(3, cliente.getEmail());
+            pst.setString(4, cliente.getTelefono());
+            pst.setInt(5, cliente.getId());
+            pst.executeUpdate();
+
+            con.close();
+            pst.close();
+        }
 
     }
 
@@ -65,7 +80,29 @@ public class ClienteDao implements ICrud<Cliente>{
     }
 
     @Override
-    public void readById(int id) throws Exception {
+    public Cliente readById(int id) throws Exception {
+        String sql = "SELECT * FROM cliente WHERE id = ?";
 
+        Conexion cnx = new Conexion();
+
+        try (Connection con = cnx.conectar();
+             PreparedStatement pst = con.prepareStatement(sql)) {
+
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                Cliente cliente = new Cliente();
+                cliente.setId(rs.getInt("id"));
+                cliente.setNombre(rs.getString("nombre"));
+                cliente.setApellido(rs.getString("apellido"));
+                cliente.setEmail(rs.getString("email"));
+                cliente.setTelefono(rs.getString("telefono"));
+                return cliente;
+            }
+
+            return null; // No encontró nada
+        }
     }
+
 }

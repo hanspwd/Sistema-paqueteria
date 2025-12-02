@@ -8,6 +8,6 @@ public interface ICrud<T> {
     List<T> readAll() throws Exception;
     void update(T t) throws Exception;
     void  delete(int id) throws Exception;
-    void readById(int id) throws Exception;
+    T readById(int id) throws Exception;
 
 }
