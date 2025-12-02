@@ -2,6 +2,8 @@ package model;
 
 import dao.ClienteDao;
 
+import java.util.List;
+
 public class Cliente {
 
     private int id;
@@ -82,7 +84,7 @@ public class Cliente {
         if(!telefono.isBlank()) {
             this.telefono = telefono;
         } else{
-            throw new Exception("El telefono del cliente no puede estar vacío");
+            throw new Exception("El teléfono del cliente no puede estar vacío");
         }
     }
 
@@ -90,5 +92,10 @@ public class Cliente {
         // Comunicación con DAO
         ClienteDao dao = new ClienteDao();
         dao.create(this);
+    }
+
+    public List<Cliente> listarCliente() throws Exception {
+        ClienteDao dao = new ClienteDao();
+        return dao.readAll();
     }
 }

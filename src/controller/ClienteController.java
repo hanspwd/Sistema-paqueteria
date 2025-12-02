@@ -3,6 +3,7 @@ package controller;
 import model.Cliente;
 import view.Alerta;
 import view.ClientePanel;
+import javax.swing.table.DefaultTableModel;
 
 public class ClienteController {
 
@@ -15,13 +16,18 @@ public class ClienteController {
     }
 
     public void init() {
-        view.getBtnAgregar().addActionListener(e -> {
-            try {
-                agregarCliente();
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-        });
+        cliente = new Cliente();
+
+        try {
+            listarClientes();
+        } catch (Exception e) {
+            Alerta.mensaje(
+                    "Ocurrió un error al intentar listar a los clientes a la tabla",
+                    "ERROR",
+                    0);
+        }
+
+        setBtnListeners();
     }
 
     private void agregarCliente() throws Exception {
@@ -34,8 +40,63 @@ public class ClienteController {
     }
 
     private void listarClientes() throws Exception {
+        String[] header = {"id", "nombre, apellido", "email", "teléfono"};
+        DefaultTableModel tableModel = new  DefaultTableModel(header, 0);
+
+        String[] datos = new String[5];
+
+        for (Cliente cliente : cliente.listarCliente()) {
+            datos[0] = String.valueOf(cliente.getId());
+            datos[1] = cliente.getNombre();
+            datos[2] = cliente.getApellido();
+            datos[3] = cliente.getEmail();
+            datos[4] = cliente.getTelefono();
+            tableModel.addRow(datos);
+        }
+        view.getTblDatosCliente().setModel(tableModel);
+    }
+
+    public void setBtnListeners() {
+        view.getBtnAgregar().addActionListener(e -> {
+            try {
+                agregarCliente();
+                listarClientes();
+                limpiarCampos();
+            } catch (Exception ex) {
+                Alerta.mensaje(ex.getMessage(), "Error", 0);
+            }
+        });
+
+        view.getBtnActualizar().addActionListener(e -> {
+            /* TODO*/
+        });
+
+        view.getBtnEliminar().addActionListener(e -> {
+            /* TODO*/
+        });
+
+        view.getBtnBuscar().addActionListener(e -> {
+            /* TODO*/
+        });
+
+        view.getBtnLimpiarTodo().addActionListener(e -> {
+            limpiarCampos();
+        });
+    }
 
 
+    /*
+    * Aca abajo cosas útiles
+    * */
+
+    // Limpiar textFields
+    public void limpiarCampos() {
+
+        view.getTxtId().setText("");
+        view.getTxtNombre().setText("");
+        view.getTxtApellido().setText("");
+        view.getTxtEmail().setText("");
+        view.getTxtTelefono().setText("");
 
     }
 
@@ -54,5 +115,4 @@ public class ClienteController {
             return false;
         }
     }
-
 }
