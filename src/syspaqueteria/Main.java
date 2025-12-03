@@ -4,18 +4,14 @@
  */
 package syspaqueteria;
 
-import controller.ClienteController;
 import controller.MainController;
-import model.Cliente;
-import view.ClientePanel;
-import view.MainView;
 
 public class Main {
     
     public static void main(String[] args) {
 
         // INICIO PROGRAMA
-        MainController controller = new MainController();
+        MainController mainController = new MainController();
 
     }
     

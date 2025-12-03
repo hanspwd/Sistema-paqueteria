@@ -108,4 +108,9 @@ public class Cliente {
         ClienteDao dao = new ClienteDao();
         return dao.readById(id);
     }
+
+    public void eliminaCliente(int id) throws Exception {
+        ClienteDao dao = new ClienteDao();
+        dao.delete(id);
+    }
 }

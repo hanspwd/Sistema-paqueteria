@@ -76,7 +76,14 @@ public class ClienteDao implements ICrud<Cliente>{
 
     @Override
     public void delete(int id) throws Exception {
+        String sql =  "DELETE FROM `cliente` WHERE id=?";
 
+        Conexion cnx = new Conexion();
+        try(Connection con = cnx.conectar()) {
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, id);
+            pst.executeUpdate();
+        }
     }
 
     @Override

@@ -82,7 +82,7 @@ public class MainView extends javax.swing.JFrame {
         panelLateralLayout.setVerticalGroup(
             panelLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLateralLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addGap(80, 80, 80)
                 .addComponent(jLabel1)
                 .addGap(37, 37, 37)
                 .addComponent(btnMenu)
@@ -92,7 +92,7 @@ public class MainView extends javax.swing.JFrame {
                 .addComponent(btnEnvios)
                 .addGap(18, 18, 18)
                 .addComponent(btnSeguimiento)
-                .addContainerGap(118, Short.MAX_VALUE))
+                .addContainerGap(140, Short.MAX_VALUE))
         );
 
         panelContenedor.setLayout(new java.awt.CardLayout());
@@ -104,8 +104,8 @@ public class MainView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelLateral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelContenedor, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(panelContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

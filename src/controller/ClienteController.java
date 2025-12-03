@@ -15,7 +15,7 @@ public class ClienteController {
         init();
     }
 
-    public void init() {
+    private void init() {
         cliente = new Cliente();
 
         try {
@@ -31,7 +31,7 @@ public class ClienteController {
     }
 
 
-    public void setBtnListeners() {
+    private void setBtnListeners() {
         view.getBtnAgregar().addActionListener(e -> {
             try {
                 agregarCliente();
@@ -52,7 +52,11 @@ public class ClienteController {
         });
 
         view.getBtnEliminar().addActionListener(e -> {
-            /* TODO*/
+            try {
+                eliminarCliente();
+            } catch (Exception ex) {
+                Alerta.mensaje(ex.getMessage(), "Error", 0);
+            }
         });
 
         view.getBtnBuscar().addActionListener(e -> {
@@ -66,6 +70,13 @@ public class ClienteController {
         view.getBtnLimpiarTodo().addActionListener(e -> {
             reiniciarCampos();
         });
+    }
+
+    private void eliminarCliente() throws Exception {
+        int id = Integer.parseInt(view.getTxtId().getText());
+        cliente.eliminaCliente(id);
+        reiniciarCampos();
+        listarClientes();
     }
 
 
@@ -106,11 +117,8 @@ public class ClienteController {
 
     private void listarClientes() throws Exception {
         String[] header = {"id", "nombre", "apellido", "email", "teléfono"};
-
         DefaultTableModel tableModel = new  DefaultTableModel(header, 0);
-
         String[] datos = new String[header.length+1];
-
         for (Cliente cliente : cliente.listarCliente()) {
             datos[0] = String.valueOf(cliente.getId());
             datos[1] = cliente.getNombre();
@@ -121,32 +129,26 @@ public class ClienteController {
         }
         view.getTblDatosCliente().setModel(tableModel);
     }
-
-
-
     /*
     * Aca abajo cosas útiles
     * */
 
     // Limpiar textFields
-    public void reiniciarCampos() {
-
+    private void reiniciarCampos() {
         view.getTxtId().setEnabled(true);
         view.getBtnAgregar().setEnabled(true);
         view.getBtnActualizar().setEnabled(true);
         view.getBtnBuscar().setEnabled(true);
         view.getBtnLimpiarTodo().setEnabled(true);
-
         view.getTxtId().setText("");
         view.getTxtNombre().setText("");
         view.getTxtApellido().setText("");
         view.getTxtEmail().setText("");
         view.getTxtTelefono().setText("");
-
     }
 
     // Obtener datos cliente
-    public boolean getDatosPanelCliente() {
+    private boolean getDatosPanelCliente() {
         String nombre = view.getTxtNombre().getText();
         String apellido = view.getTxtApellido().getText();
         String email = view.getTxtEmail().getText();
