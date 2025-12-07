@@ -4,7 +4,7 @@ import dao.ClienteDao;
 
 import java.util.List;
 
-public class Cliente {
+public final class Cliente {
 
     private int id;
     private String nombre;

@@ -22,11 +22,12 @@ public class ClienteController {
             listarClientes();
         } catch (Exception e) {
             Alerta.mensaje(
-                    "Ocurrió un error al intentar listar a los clientes a la tabla",
-                    "ERROR",
-                    0);
+            "Ocurrió un error al intentar listar a los clientes a la tabla",
+            "ERROR",
+            0);
         }
 
+        view.getBtnActualizar().setEnabled(false);
         setBtnListeners();
     }
 
@@ -35,8 +36,8 @@ public class ClienteController {
         view.getBtnAgregar().addActionListener(e -> {
             try {
                 agregarCliente();
-                listarClientes();
                 reiniciarCampos();
+                listarClientes();
             } catch (Exception ex) {
                 Alerta.mensaje(ex.getMessage(), "Error", 0);
             }
@@ -62,6 +63,7 @@ public class ClienteController {
         view.getBtnBuscar().addActionListener(e -> {
             try {
                 buscarClientePorId();
+                view.getBtnActualizar().setEnabled(true);
             } catch (Exception ex) {
                 Alerta.mensaje(ex.getMessage(), "Error", 0);
             }
@@ -116,7 +118,7 @@ public class ClienteController {
     }
 
     private void listarClientes() throws Exception {
-        String[] header = {"id", "nombre", "apellido", "email", "teléfono"};
+        String[] header = {"ID", "NOMBRE", "APELLIDO", "EMAIL", "FONO"};
         DefaultTableModel tableModel = new  DefaultTableModel(header, 0);
         String[] datos = new String[header.length+1];
         for (Cliente cliente : cliente.listarCliente()) {
@@ -137,9 +139,10 @@ public class ClienteController {
     private void reiniciarCampos() {
         view.getTxtId().setEnabled(true);
         view.getBtnAgregar().setEnabled(true);
-        view.getBtnActualizar().setEnabled(true);
+        view.getBtnActualizar().setEnabled(false);
         view.getBtnBuscar().setEnabled(true);
         view.getBtnLimpiarTodo().setEnabled(true);
+        
         view.getTxtId().setText("");
         view.getTxtNombre().setText("");
         view.getTxtApellido().setText("");
